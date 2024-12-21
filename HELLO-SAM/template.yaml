@@ -14,13 +14,22 @@ Resources:
     Properties:
       Handler: logger.handler
       Timeout: 3
+      Events:
+        GetLogs:
+          Type: Api
+          Properties:
+            Path: /logs
+            Method: get
+        FileUpload:
+          Type: S3
+          Properties:
+            Bucket: MyBucket
+            Events: s3:objectCreated:*
+
+  MyBucket:
+    Type: AWS::S3::Bucket
 
   addNumbers:
     Type: AWS::Serverless::Function
     Properties:
       Handler: add.handler
-
-  TestAPI:
-    Type: AWS::Serverless::Api
-    Properties:
-      StageName: test
